@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কখনো কি বলেছি তোমাকে?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Lobster&display=swap');
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #0f0c29;
+            background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+        }
+
+        .background-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 2rem;
+            color: #ff005d;
+            animation: fall 10s linear infinite;
+            opacity: 0;
+            text-shadow: 0 0 10px #ff005d, 0 0 20px #ff005d;
+            z-index: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        #page1 h1 {
+            font-family: 'Lobster', cursive;
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #ff005d, 0 0 30px #ff005d;
+            margin-bottom: 40px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 300px;
+            margin: 40px auto;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #00c6ff;
+            border-radius: 50px;
+            background: transparent;
+            color: white;
+            font-size: 1.2rem;
+            outline: none;
+            box-shadow: 0 0 15px #00c6ff, 0 0 25px #00c6ff, inset 0 0 15px #00c6ff;
+            transition: all 0.3s ease;
+        }
+       
+        .input-box input::placeholder {
+            color: #ffffff99;
+        }
+
+        .input-box input:focus {
+            box-shadow: 0 0 25px #ff005d, 0 0 40px #ff005d, inset 0 0 25px #ff005d;
+            border-color: #ff005d;
+        }
+
+        .neon-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            background: #ff005d;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px #ff005d, 0 0 20px #ff005d, 0 0 30px #ff005d;
+            text-transform: uppercase;
+        }
+
+        .neon-button:hover {
+            background: #00c6ff;
+            box-shadow: 0 0 15px #00c6ff, 0 0 30px #00c6ff, 0 0 45px #00c6ff;
+            transform: scale(1.05);
+        }
+       
+        /* Page 2 Styles */
+        #page2 {
+            display: none;
+            perspective: 1000px;
+        }
+       
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            margin: 50px auto;
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #c71585;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 21, 147, 0.7);
+        }
+       
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ff1493;
+            box-shadow: 0 0 10px #ff1493;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #ff1493;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            transform-origin: bottom;
+            transition: transform 0.7s ease-in-out;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            background: #fff0f5;
+            color: #333;
+            border-radius: 5px;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: 'Lobster', cursive;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100%);
+            transition: transform 0.7s 0.3s ease-in-out;
+            overflow-y: auto;
+            text-align: center;
+        }
+       
+        .letter p {
+             margin-bottom: 15px;
+        }
+
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-10px);
+        }
+       
+        #showMessageBtn {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-blur"></div>
+    <div id="heart-container"></div>
+
+    <div id="page1" class="container">
+        <h1>কখনো কি বলেছি তোমাকে?</h1>
+        <div class="input-box">
+            <input type="text" id="nameInput" placeholder="তোমার নাম..." required>
+        </div>
+        <button id="generateBtn" class="neon-button">এখানে ক্লিক করুন </button>
+    </div>
+
+    <div id="page2" class="container">
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="letter" id="proposalLetter">
+                <!-- Content will be generated by JS -->
+            </div>
+            <div class="envelope"></div>
+            <div class="flap"></div>
+        </div>
+        <button id="showMessageBtn" class="neon-button">Show Message</button>
+    </div>
+
+    <script>
+        const heartContainer = document.getElementById('heart-container');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const generateBtn = document.getElementById('generateBtn');
+        const nameInput = document.getElementById('nameInput');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const showMessageBtn = document.getElementById('showMessageBtn');
+        const proposalLetter = document.getElementById('proposalLetter');
+
+        // --- লাভ ইমোজি বৃষ্টি ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+           
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 5 + 5 + 's'; // 5s to 10s
+            heart.style.fontSize = Math.random() * 1.5 + 1 + 'rem'; // 1rem to 2.5rem
+           
+            heartContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+        setInterval(createHeart, 300);
+
+        // --- ভালোবাসার ছন্দ ---
+        const bengaliQuotes = [
+            "তুমি আমার সেই কবিতা, যা আমি প্রতিদিন লিখতে চাই।",
+            "তোমার চোখে আকাশ দেখি, তোমার হাসিতে চাঁদ। তুমি আমার ভালোবাসা, আমার বেঁচে থাকার সাধ।",
+            "হাজার তারার মাঝে তুমি আমার ধ্রুবতারা। তোমায় ছাড়া এই জীবনটা দিশেহারা।",
+            "আমার সব গল্পের শুরু এবং শেষ তোমাকেই ঘিরে।",
+            "যদি ভালোবাসা মানে অপেক্ষা হয়, আমি যুগ যুগ ধরে অপেক্ষা করতে রাজি।",
+            "তুমি আমার হৃদয়ের সেই সুর, যা বারবার শুনতে ইচ্ছে করে।"
+        ];
+
+        // --- জেনারেট বাটনের কাজ ---
+        generateBtn.addEventListener('click', () => {
+            const name = nameInput.value.trim();
+            if (name === '') {
+                // Using a custom modal/alert in the future would be better
+                // but for now, a simple browser alert will do.
+                alert('অনুগ্রহ করে একটি নাম লিখুন।');
+                return;
+            }
+           
+            // নাম সংরক্ষণ করা
+            localStorage.setItem('proposalName', name);
+
+            // পৃষ্ঠা পরিবর্তন
+            page1.style.display = 'none';
+            page2.style.display = 'block';
+
+            // চিঠি তৈরি করা
+            generateLetter();
+        });
+
+        // --- চিঠি তৈরি করার ফাংশন ---
+        function generateLetter() {
+            const name = localStorage.getItem('proposalName') || 'প্রিয়';
+            const randomQuote = bengaliQuotes[Math.floor(Math.random() * bengaliQuotes.length)];
+           
+            proposalLetter.innerHTML = `
+                <p>প্রিয় ${name},</p>
+                <p>${randomQuote}</p>
+            `;
+        }
+
+        // --- খাম খোলার অ্যানিমেশন ---
+        showMessageBtn.addEventListener('click', () => {
+            envelopeWrapper.classList.toggle('open');
+        });
+       
+    </script>
+</body>
+</html>
